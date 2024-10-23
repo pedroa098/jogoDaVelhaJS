@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Velha</title>
+    <style>
+
+        body{
+            background-color: #ff1b8b;
+        }
+        .divCaixaPrincipal .divColuna  div {
+            width: 100px;
+            height: 100px;
+            border: 5px solid #ab0cb6;
+            text-align: center;
+            font-size: 60px;
+            cursor: pointer;
+            background-color: #ff69b4;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+        }
+
+        .divColuna {
+            align-items: flex-end;
+            display: flex;
+            justify-content: center;
+        }
+
+        .divColuna div:hover {
+            background-color: #bb1787;
+            transform: scale(1.05);
+        }
+
+        .vencedor {
+            background-color: #ff69ff !important;
+        }
+
+        .reset {
+            background-color: #9200cc;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+
+        .lugar-reset {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 10vh; 
+        }
+
+        .titulo{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 10vh; 
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }           
+    </style>
+</head>
+
+<body>
+    <div class="titulo">
+        <div>
+            Jogador 1: X | Jogador 2: O
+        </div>
+    </div>
+    <div class="divCaixaPrincipal">
+        <div class="divColuna">
+            <div id="campo1" onclick="marcarCampo(this)"></div>
+            <div id="campo2" onclick="marcarCampo(this)"></div>
+            <div id="campo3" onclick="marcarCampo(this)"></div>
+        </div>
+        <div class="divColuna">
+            <div id="campo4" onclick="marcarCampo(this)"></div>
+            <div id="campo5" onclick="marcarCampo(this)"></div>
+            <div id="campo6" onclick="marcarCampo(this)"></div>
+        </div>
+        <div class="divColuna">
+            <div id="campo7" onclick="marcarCampo(this)"></div>
+            <div id="campo8" onclick="marcarCampo(this)"></div>
+            <div id="campo9" onclick="marcarCampo(this)"></div>
+        </div>
+        <div class="lugar-reset">
+            <button class="reset" onclick="resetarJogo()">Resetar</button>
+        </div>
+    </div>
+    
+    <script>
+        let jogadorAtual = 'X';
+        
+        function marcarCampo(divCaixa) {
+            if (divCaixa.textContent === '') {
+                divCaixa.textContent = jogadorAtual;
+                if (verificarVencedor()) {
+                    alert("Jogador " + jogadorAtual + " ganhou");
+                } else {
+                    jogadorAtual = jogadorAtual === 'X' ? 'O' : 'X';
+                }
+            }
+        }
+
+        function verificarVencedor() {
+            const campo1 = document.getElementById('campo1');
+            const campo2 = document.getElementById('campo2');
+            const campo3 = document.getElementById('campo3');
+            const campo4 = document.getElementById('campo4');
+            const campo5 = document.getElementById('campo5');
+            const campo6 = document.getElementById('campo6');
+            const campo7 = document.getElementById('campo7');
+            const campo8 = document.getElementById('campo8');
+            const campo9 = document.getElementById('campo9');
+
+            if (campo1.textContent === jogadorAtual && campo2.textContent === jogadorAtual && campo3.textContent === jogadorAtual) {
+                pintarVencedor(campo1, campo2, campo3);
+                return true;
+            } else if (campo4.textContent === jogadorAtual && campo5.textContent === jogadorAtual && campo6.textContent === jogadorAtual) {
+                pintarVencedor(campo4, campo5, campo6);
+                return true;
+            } else if (campo7.textContent === jogadorAtual && campo8.textContent === jogadorAtual && campo9.textContent === jogadorAtual) {
+                pintarVencedor(campo7, campo8, campo9);
+                return true;
+            } else if (campo1.textContent === jogadorAtual && campo4.textContent === jogadorAtual && campo7.textContent === jogadorAtual) {
+                pintarVencedor(campo1, campo4, campo7);
+                return true;
+            } else if (campo2.textContent === jogadorAtual && campo5.textContent === jogadorAtual && campo8.textContent === jogadorAtual) {
+                pintarVencedor(campo2, campo5, campo8);
+                return true;
+            } else if (campo3.textContent === jogadorAtual && campo6.textContent === jogadorAtual && campo9.textContent === jogadorAtual) {
+                pintarVencedor(campo3, campo6, campo9);
+                return true;
+            } else if (campo1.textContent === jogadorAtual && campo5.textContent === jogadorAtual && campo9.textContent === jogadorAtual) {
+                pintarVencedor(campo1, campo5, campo9);
+                return true;
+            } else if (campo3.textContent === jogadorAtual && campo5.textContent === jogadorAtual && campo7.textContent === jogadorAtual) {
+                pintarVencedor(campo3, campo5, campo7);
+                return true;
+            }
+            return false;
+        }
+
+        function pintarVencedor(c1, c2, c3) {
+            c1.classList.add('vencedor');
+            c2.classList.add('vencedor');
+            c3.classList.add('vencedor');
+        }
+
+        function resetarJogo() {
+            for (var i = 1; i <= 9; i++) {
+                var campo = document.getElementById('campo' + i);
+                campo.textContent = '';
+                campo.classList.remove('vencedor'); 
+            }
+            jogadorAtual = 'X';
+        }
+    </script>
+</body>
+</html>
